@@ -1,0 +1,12 @@
+{% extends "pagestyle.html" %}
+{% block content %}
+ <h1>/ascii/</h1>
+ <hr>
+ {% for blog in blogs %}
+ <div class = "blog">
+  <div class = "blog-title">{{blog.title}}</div>
+  <pre class = "blog-body">{{blog.blog}}</pre>
+ </div>
+ {% endfor %}
+
+{% endblock %}
