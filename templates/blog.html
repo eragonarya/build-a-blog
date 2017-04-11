@@ -8,7 +8,8 @@
   <pre class = "blog-body">{{blog.blog[:30]}}</pre>
  </div>
  {% endfor %}
+ <br>
  {% if ppage > 0 %}
  <a href="/blog?page={{ppage}}">Previous</a>
- {% endif %}    {% if npage != -1 %}<a href="/blog?page={{npage}}">Next</a> {% endif %}
+ {% endif %}  |  {% if npage != -1 %}<a href="/blog?page={{npage}}">Next</a> {% endif %}
 {% endblock %}
