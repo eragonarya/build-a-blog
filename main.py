@@ -40,15 +40,15 @@ class Blog(db.Model):
         created = db.DateTimeProperty(auto_now_add = True)
 
 class MainPage(Handler):
-    def render_front(self,title='',blog='',error=''):
+    def render_front(self,title='',blog='',error='',link=''):
         blogs = db.GqlQuery("SELECT * FROM Blog ORDER BY created DESC limit 5")
         self.render("blog.html",title=title,blog=blog,error=error, blogs=blogs)
     def get(self):
         self.render_front()
 
 class Submit(Handler):
-    def render_front(self,title='',blog='',error=''):
-        self.render("submission.html",title=title,blog=blog,error=error)
+    def render_front(self,title='',blog='',error='',link=''):
+        self.render("submission.html",title=title,blog=blog, error=error)
     def get(self):
         self.render_front()
 
@@ -58,10 +58,17 @@ class Submit(Handler):
         if title and blog:
             b = Blog(title = title, blog = blog)
             b.put()
-
-            self.redirect("/")
+            link = b.key().id()
+            self.redirect("/blog/"+str(link))
         else:
             error = "we need both a title and some artwork!"
             self.render_front(title,blog,error)
+class ViewPostHandler(Handler):
+    def render_front(self,title='',blog='',error=''):
+        self.render("individualblog.html",title=title,blog=blog,error=error)
+    def get(self, id):
+        blogid = Blog.get_by_id(int(id))
+        self.render_front(title=blogid,blog=blogid)
 
-app = webapp2.WSGIApplication([('/',MainPage),('/newpost',Submit)], debug = True)
+
+app = webapp2.WSGIApplication([('/',MainPage),('/blog',MainPage),('/newpost',Submit),webapp2.Route('/blog/<id:\d+>',ViewPostHandler)], debug = True)
