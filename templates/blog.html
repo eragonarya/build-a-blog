@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
  <h1>/ascii/</h1>
- <hr>
+  <hr>
  {% for blog in blogs %}
  <div class = "blog">
   <div class = "blog-title"><a href="/blog/{{blog.key().id()}}">{{blog.title}}</a></div>
   <pre class = "blog-body">{{blog.blog[:30]}}</pre>
  </div>
  {% endfor %}
-
+ {% if ppage > 0 %}
+ <a href="/blog?page={{ppage}}">Previous</a>
+ {% endif %}    {% if npage != -1 %}<a href="/blog?page={{npage}}">Next</a> {% endif %}
 {% endblock %}
