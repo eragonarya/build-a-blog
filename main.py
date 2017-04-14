@@ -20,7 +20,7 @@ import jinja2
 from google.appengine.ext import db
 
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),autoescape=True)
 
 def get_posts(limit, offset):
     blogs = db.GqlQuery("SELECT * FROM Blog ORDER BY created DESC LIMIT " + str(limit) + " OFFSET " + str(offset))
